@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body class="container">
+    <h1 class="text-center mt-5">Welcome to the Student Course Management System</h1>
+    <div class="text-center mt-5">
+        <a href="/add_student" class="btn btn-primary">Add a new student</a>
+        <a href="/add_course" class="btn btn-secondary ml-3">Add a new course</a>
+    </div>
+    <h2 class="text-center mt-5">Search Student</h2>
+    <form action="/search" method="post" class="mt-5">
+        <div class="form-group">
+            <label for="id">UID:</label>
+            <input type="text" id="id" name="id" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <h2 class="text-center mt-5">All Students</h2>
+    <table id="students" class="table mt-3">
+        <thead>
+            <tr>
+                <th>UID</th>
+                <th>Name</th>
+                <th>Course 1</th>
+                <th>Course 2</th>
+                <th>Course 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Students will be inserted here -->
+        </tbody>
+    </table>
+    <script>
+        fetch('/students')
+            .then(response => response.json())
+            .then(students => {
+                const table = document.getElementById('students').getElementsByTagName('tbody')[0];
+                students.forEach(student => {
+                    const row = table.insertRow();
+                    row.insertCell().innerText = student.UID;
+                    row.insertCell().innerText = student.Name;
+                    row.insertCell().innerText = student.Course1;
+                    row.insertCell().innerText = student.Course2;
+                    row.insertCell().innerText = student.Course3;
+                });
+            })
+            .catch(error => console.error('An error occurred while fetching the students:', error));
+    </script>
+</body>
+</html>
